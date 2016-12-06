@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Cel-Fer</string>
+    <string name="intro">Hello, you can use this application to check\n your skills on temperature conversion, or\n calculate the correct value</string>
+    <string name="RBcalc">Calculate</string>
+    <string name="RBcheck">Check</string>
+    <string name="Bgo">Go!</string>
+    <string name="TVfarenheit">Farenheit</string>
+    <string name="TVcelcius">Celcius</string>
+    <string name="Breturn">Return</string>
+</resources>
