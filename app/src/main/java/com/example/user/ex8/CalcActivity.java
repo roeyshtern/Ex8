@@ -1,5 +1,6 @@
 package com.example.user.ex8;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CalcActivity extends AppCompatActivity {
+public class CalcActivity extends Activity {
     public static final String ACTION_CALC = "calc";
     public static final String ACTION_CHECK = "check";
     TextView TV;

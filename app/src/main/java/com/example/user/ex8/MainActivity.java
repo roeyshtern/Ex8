@@ -33,7 +33,9 @@ public class MainActivity extends Activity implements TextWatcher{
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         getMenuInflater().inflate(R.menu.context, menu);
-
+        int color = ((EditText)v).getCurrentTextColor();
+        int menuId = color==Color.BLUE?R.id.colorBlue:color==Color.RED?R.id.colorRed:R.id.colorGreen;
+        menu.findItem(menuId).setChecked(true);
         int[] colors = new int[]{Color.RED, Color.rgb(0,153,0), Color.BLUE};
         for (int i = 0; i<colors.length;i++)
         {
@@ -60,6 +62,32 @@ public class MainActivity extends Activity implements TextWatcher{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        MyEditText.MyMenuInfo menuInfo = (MyEditText.MyMenuInfo) item.getMenuInfo();
+        EditText ed  = menuInfo.et;
+        switch(item.getItemId())
+        {
+            case R.id.colorBlue:
+            {
+                ed.setTextColor(Color.BLUE);
+                break;
+            }
+            case R.id.colorGreen:
+            {
+                ed.setTextColor(Color.rgb(0,153,0));
+                break;
+            }
+            case R.id.colorRed:
+            {
+                ed.setTextColor(Color.RED);
+                break;
+            }
+
+        }
+        return true;
     }
 
     @Override
