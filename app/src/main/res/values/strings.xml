@@ -7,4 +7,9 @@
     <string name="TVfarenheit">Farenheit</string>
     <string name="TVcelcius">Celcius</string>
     <string name="Breturn">Return</string>
+    <string name="closing">Closing the app</string>
+    <string name="sure">Are you sure?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="host">Hosting activity must imlements the interface ResultListerner</string>
 </resources>

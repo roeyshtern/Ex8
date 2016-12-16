@@ -57,6 +57,7 @@
             android:layout_weight="1">
 
             <com.example.user.ex8.MyEditText
+                android:freezesText="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -91,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="5"
+                android:freezesText="true"
                 android:id="@+id/ETcelcius"
                 android:layout_weight="1"
                 android:enabled="false"/>

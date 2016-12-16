@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,8 +21,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class MainActivity extends Activity implements TextWatcher{
+public class MainActivity extends Activity implements TextWatcher, MyDialog.ResultsListener{
 
+    public final int REQUEST_CODE = 1;
     boolean celOrFar;
     boolean result;
     double farenhiet, celcius;
@@ -29,12 +32,14 @@ public class MainActivity extends Activity implements TextWatcher{
     Button Bgo;
     RadioGroup RG;
     RadioButton RBcheck, RBcalculate;
+    int menuId = 0;
+    int currentColor = 0;
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         getMenuInflater().inflate(R.menu.context, menu);
-        int color = ((EditText)v).getCurrentTextColor();
-        int menuId = color==Color.BLUE?R.id.colorBlue:color==Color.RED?R.id.colorRed:R.id.colorGreen;
+        currentColor = ((EditText)v).getCurrentTextColor();
+        menuId = currentColor==Color.BLUE?R.id.colorBlue:currentColor==Color.RED?R.id.colorRed:R.id.colorGreen;
         menu.findItem(menuId).setChecked(true);
         int[] colors = new int[]{Color.RED, Color.rgb(0,153,0), Color.BLUE};
         for (int i = 0; i<colors.length;i++)
@@ -52,12 +57,14 @@ public class MainActivity extends Activity implements TextWatcher{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch(id)
-        {
+        switch(id) {
             case R.id.action_help:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature"));
                 startActivity(intent);
+                return true;
+            case R.id.action_exit:
+                MyDialog.newInstance(MyDialog.EXIT_DIALOG).show(getFragmentManager(), "exit dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -88,6 +95,34 @@ public class MainActivity extends Activity implements TextWatcher{
 
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(REQUEST_CODE==requestCode)
+        {
+            RG.clearCheck();
+            ETcelcius.setText("");
+            ETfarenheit.setText("");
+            setNewState(false);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        int currentColorCel = savedInstanceState.getInt("currentColorCel");
+        int currentColorFar = savedInstanceState.getInt("currentColorFar");
+        ETcelcius.setTextColor(currentColorCel);
+        ETfarenheit.setTextColor(currentColorFar);
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("currentColorCel", ETcelcius.getCurrentTextColor());
+        outState.putInt("currentColorFar", ETfarenheit.getCurrentTextColor());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -157,20 +192,11 @@ public class MainActivity extends Activity implements TextWatcher{
                 }
                 i.putExtra("farenheit", farenhiet);
                 i.putExtra("celcius", celcius);
-                startActivity(i);
+                startActivityForResult(i,REQUEST_CODE);
             }
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        RG.clearCheck();
-        ETcelcius.setText("");
-        ETfarenheit.setText("");
-        setNewState(false);
-
-    }
 
     public void setNewState(boolean newState)
     {
@@ -230,5 +256,20 @@ public class MainActivity extends Activity implements TextWatcher{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public void OnfinishDialog(int requestCode, Object result) {
+        switch(requestCode)
+        {
+            case MyDialog.EXIT_DIALOG:
+            {
+                finish();
+                System.exit(0);
+                break;
+            }
+            case MyDialog.PRECISION:
+                break;
+        }
     }
 }

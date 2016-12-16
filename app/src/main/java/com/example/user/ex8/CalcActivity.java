@@ -26,13 +26,15 @@ public class CalcActivity extends Activity {
         Breturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               finish();
+                setResult(RESULT_OK);
+                finish();
             }
         });
         Intent i = getIntent();
         if(i==null || i.getAction()==null)
         {
             Toast.makeText(getApplicationContext(),"Bad activitaion of the register activity",Toast.LENGTH_LONG).show();
+
             finish();
         }
         else
