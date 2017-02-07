@@ -9,28 +9,31 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="384dp"
+            android:layout_height="48dp"
             android:orientation="horizontal">
             <TextView
-                android:text="TextView"
+                android:text="@string/none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/TvNone" />
 
             <SeekBar
-                android:layout_width="match_parent"
+                android:layout_width="252dp"
                 android:layout_height="wrap_content"
+                android:max="4"
                 android:id="@+id/seekBar" />
             <TextView
-                android:text="TextView"
+                android:text="@string/Full"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/TVFull" />
         </LinearLayout>
+
         <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
+            android:text="123"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/TVAfterPoint" />
 

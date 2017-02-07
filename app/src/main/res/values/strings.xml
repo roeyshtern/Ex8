@@ -12,4 +12,9 @@
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="host">Hosting activity must imlements the interface ResultListerner</string>
+    <string name="precision">Set the number percision</string>
+    <string name="cancel">Cancel</string>
+    <string name="Ok">Ok</string>
+    <string name="none">none</string>
+    <string name="Full">full</string>
 </resources>

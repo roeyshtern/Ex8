@@ -15,6 +15,7 @@ public class CalcActivity extends Activity {
     TextView TV;
     Button Breturn;
     double result, celcius, farenheit;
+    int percision;
 
 
     @Override
@@ -41,6 +42,7 @@ public class CalcActivity extends Activity {
         {
             celcius = i.getExtras().getDouble("celcius");
             farenheit = i.getExtras().getDouble("farenheit");
+            percision = i.getExtras().getInt("percision");
             if(i.getAction().equals(ACTION_CALC))
             {
                 String a = "";
@@ -49,12 +51,12 @@ public class CalcActivity extends Activity {
                 if(i.getExtras().getBoolean("celOrFar"))
                 {
                     result = (9.0/5.0)*celcius+32;
-                    a = first + Double.toString(celcius) + "C" + last + Double.toString(result) + "F";
+                    a = first + String.format("%."+percision+"f", farenheit) + "C" + last + String.format("%."+percision+"f", result) + "F";
                 }
                 else
                 {
                     result = (5.0/9.0)*(farenheit-32);
-                    a = first + Double.toString(farenheit) + "F" + last + Double.toString(result) + "C";
+                    a = first + String.format("%."+percision+"f", farenheit) + "F" + last + String.format("%."+percision+"f", result) + "C";
                 }
                 TV.setText(a);
 
@@ -68,7 +70,7 @@ public class CalcActivity extends Activity {
                 result = (9.0/5.0)*(celcius)+32;
                 if(result ==farenheit)
                 {
-                    a = first + Double.toString(celcius) + "C" + last + Double.toString(result) + "F";
+                    a = first + String.format("%."+percision+"f", celcius) + "C" + last + String.format("%."+percision+"f", result) + "F";
                     TV.setText(a);
                 }
                 else

@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class MainActivity extends Activity implements TextWatcher, MyDialog.ResultsListener{
+public class MainActivity extends Activity implements TextWatcher, MyDialog.ResultsListener, View.OnFocusChangeListener{
 
     public final int REQUEST_CODE = 1;
     boolean celOrFar;
@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements TextWatcher, MyDialog.Resu
     RadioButton RBcheck, RBcalculate;
     int menuId = 0;
     int currentColor = 0;
+    int currentPercision = 0;
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -65,6 +66,9 @@ public class MainActivity extends Activity implements TextWatcher, MyDialog.Resu
                 return true;
             case R.id.action_exit:
                 MyDialog.newInstance(MyDialog.EXIT_DIALOG).show(getFragmentManager(), "exit dialog");
+                return true;
+            case R.id.action_settings:
+                MyDialog.newInstance(MyDialog.PRECISION).show(getFragmentManager(), "precision dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,6 +150,8 @@ public class MainActivity extends Activity implements TextWatcher, MyDialog.Resu
         registerForContextMenu(ETcelcius);
         registerForContextMenu(ETfarenheit);
 
+        currentPercision = 0;
+
 
         RG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -175,7 +181,8 @@ public class MainActivity extends Activity implements TextWatcher, MyDialog.Resu
 
         ETfarenheit.addTextChangedListener(this);
         ETcelcius.addTextChangedListener(this);
-
+        ETfarenheit.setOnFocusChangeListener(this);
+        ETcelcius.setOnFocusChangeListener(this);
 
         Bgo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,9 +199,12 @@ public class MainActivity extends Activity implements TextWatcher, MyDialog.Resu
                 }
                 i.putExtra("farenheit", farenhiet);
                 i.putExtra("celcius", celcius);
+                i.putExtra("percision", currentPercision);
                 startActivityForResult(i,REQUEST_CODE);
             }
         });
+
+
     }
 
 
@@ -268,8 +278,32 @@ public class MainActivity extends Activity implements TextWatcher, MyDialog.Resu
                 System.exit(0);
                 break;
             }
-            case MyDialog.PRECISION:
+            case MyDialog.PRECISION: {
+                currentPercision = (int)result;
+                setViewPercision(ETcelcius);
+                setViewPercision(ETfarenheit);
                 break;
+            }
         }
+    }
+     public int getCurrentPercision()
+     {
+         return currentPercision;
+     }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if(!hasFocus)
+        {
+            setViewPercision(v);
+        }
+    }
+    private void setViewPercision(View v)
+    {
+        if(!((EditText)v).getText().toString().isEmpty())
+        {
+            ((EditText)v).setText(String.format("%."+currentPercision+"f", Double.parseDouble(((EditText) v).getText().toString())));
+        }
+
     }
 }
