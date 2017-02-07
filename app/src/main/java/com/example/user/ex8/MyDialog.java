@@ -16,7 +16,7 @@ import android.widget.TextView;
  */
 
 public class MyDialog extends DialogFragment {
-    private int requestCode = 0;
+    private int requestCode = -1;
     final public static int EXIT_DIALOG = 1;
     final public static int PRECISION = 2;
     private ResultsListener listener;
